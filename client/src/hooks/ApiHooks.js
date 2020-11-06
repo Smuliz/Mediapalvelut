@@ -18,9 +18,21 @@ const getPost = async (postId) => {
 } catch (e) {
     console.log("Error: " + e.message);
 }
-  
-}
+};
+
+const getAllPosts = async () => {
+    console.log("getAllPosts started");
+    try {
+        const resp = await axios.get('api/get/allposts', {
+        });
+        console.log("RESP from getAllPosts " + resp.data.length);
+        return resp;
+    } catch (e) {
+        console.log("Error: " + e.message);
+    }
+};
 
 export  {
     getPost,
+    getAllPosts,
 }
