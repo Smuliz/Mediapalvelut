@@ -32,7 +32,25 @@ const getAllPosts = async () => {
     }
 };
 
+const postOnePost = async (title, post_body, user_id, username ) => {
+    console.log("postOnePost started");
+    try {
+        const params = {
+            title: title,
+            post_body: post_body,
+            user_id: user_id,
+            username: username
+          }
+        const resp = await axios.post('api/post/posttodb', params);
+        console.log("Resp from postOnePost" + resp);
+        return resp;
+    } catch (e) {
+        console.log("Error: " + e.message);
+    };
+};
+
 export  {
     getPost,
     getAllPosts,
+    postOnePost
 }
