@@ -49,8 +49,27 @@ const postOnePost = async (title, post_body, user_id, username ) => {
     };
 };
 
+const editOnePost = async (title, post_body, user_id, post_id, username) => {
+    console.log("edit post started" + title, post_body, user_id, post_id, username);
+    try {
+        const params = {
+            title: title,
+            post_body: post_body,
+            user_id: user_id,
+            post_id: post_id,
+            username: username
+          }
+          const resp = await axios.put('api/put/updatepost', params);
+          console.log("Resp from update post " + resp);
+          return resp
+    } catch (e) {
+        console.log("Error: " + e.message);
+    }
+}
+
 export  {
     getPost,
     getAllPosts,
-    postOnePost
+    postOnePost,
+    editOnePost
 }

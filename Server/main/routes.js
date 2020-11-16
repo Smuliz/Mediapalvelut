@@ -2,9 +2,6 @@ const express = require('express')
 const router = express.Router()
 const pool = require('./db')
 
-router.get('/api/hello', (req, res) => {
-	res.json('hello world')
-});
 
 // GET all posts
 router.get('/api/get/allposts', (req,res,next) => {
@@ -70,17 +67,24 @@ router.put('/api/put/updatepost', (req,res,next) => {
 		req.body.post_id,
 		req.body.username
 	]
+	console.log("arvot updatepost: " + arvot);
 
-	pool.query(`UPDATE posts SET title = $1, post_body=$2, user_id=$3, author=$5, date_created= NOW() WHERE post_id=$4`,
-	arvot,
-	(query_error, query_response) => {
-		console.log(query_response);
-		console.log(query_error);
-	})
+	pool.query(`UPDATE posts SET title=$1, post_body=$2, user_id=$3, author=$5, date_created=NOW() WHERE post_id=$4`,
+	arvot)
+	res.status(200).send({error: "not really"});
+	
+	
+
 } catch (e) {
 	console.log("Error: " + e.message);
 }
 });
+/*
+(query_error, query_response) => {
+		console.log(query_response);
+		console.log(query_error);
+	})
+*/
 
 //DELETE one post by post_id
 router.delete('/api/delete/post', (req,res,next) => {

@@ -6,12 +6,12 @@ const Nav = () => {
 
 return (
     <>
-    <Grid container>
+    <Grid container style={{textAlign: "center", justifyContent:"space-around"}}>
         <Grid item>
-            <p>Home</p>
+            <a href="/">Home</a>
         </Grid>
         <Grid item>
-            <p>Blog</p>
+            <a href="/blog">Blog</a>
         </Grid>
         <Grid item>
             <p>Work</p>
@@ -23,6 +23,7 @@ return (
             <p>Contact me</p>
         </Grid>
     </Grid>
+    <hr style={{border: "5px solid yellow", borderRadius:"5px", width:"90vw"}}></hr>
     </>
 )
 }

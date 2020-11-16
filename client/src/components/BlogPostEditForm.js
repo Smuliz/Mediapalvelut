@@ -2,28 +2,41 @@ import React, { useState, useEffect } from 'react';
 import Grid from '@material-ui/core/Grid';
 import { FormControl, Button } from '@material-ui/core';
 import TextField from '@material-ui/core/TextField';
-import { postOnePost } from '../hooks/ApiHooks';
+import { editOnePost } from '../hooks/ApiHooks';
 
-const BlogPostForm = (props) => {
+const BlogPostEditForm = (props) => {
     const [postTitle, setPostTitle] = useState("");
     const [postBody, setPostBody] = useState("");
-    const user_id = 1;
-    const username = "TestiUser";
+    const [userId, setUserId] = useState("");
+    const [username, setUsername] = useState("");
+
+    useEffect(() => {
+        const f = async () => {
+            await setPostTitle(props.postTitle);
+            await setPostBody(props.postBody);
+            await setUserId(props.userId);
+            await setUsername(props.username);
+            console.log("all set" + props.postTitle + props.postBody + props.userId + props.username);
+
+        }
+        f();
+       
+    }, [props])
 
    const handleTitleChange = (eventValue) => {
         setPostTitle(eventValue);
-        console.log("postTitle changed")
+        console.log("postTitle edited")
    };
 
    const handleBodyChange = (eventValue) => {
        setPostBody(eventValue);
-       console.log("postBody changed")
+       console.log("postBody edited")
    }
 
    const handleSubmit = () => {
        const f = async () => {
            try {
-           let response = await postOnePost(postTitle, postBody, user_id, username);
+           let response = await editOnePost(postTitle, postBody, userId, props.postId, props.username);
            console.log("response from handleSubmit" + response);
            alert("Submit succesful");
            } catch (e) {
@@ -69,4 +82,4 @@ const BlogPostForm = (props) => {
     )
 }
 
-export default BlogPostForm;
+export default BlogPostEditForm;
