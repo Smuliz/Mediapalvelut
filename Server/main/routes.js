@@ -1,7 +1,31 @@
 const express = require('express')
 const router = express.Router()
 const pool = require('./db')
+const multer = require('multer');
+const upload = multer({dest:'uploads/'})
+var fs = require('fs');
 
+
+// POST picture
+router.post('/api/post/picture', upload.single('uploaded_file'), function(req,res,next) {
+	fs.readFile(req.file, (err, imgData) => {
+		pool.query('INSERT INTO pictures(picture_image) VALUES($1)', imgData)
+		.then(() => {
+			console.log("jee")
+		})
+		.catch(error => {
+			console.log("ERROR: " + error.message);
+		})
+	})
+	//const file = req.file;
+	//const body = req.body;
+	//var imgData = Buffer.from(file.buffer);
+	//imgData === Buffer.from(imgData.toString('base64'), 'base64').toString() // true
+	//const buffer = new Buffer.from(file.buffer);
+	//buffer === Buffer.from(file.toString('base64'), 'base64').toString() // true;
+
+	console.log("pic upload: " + file.buffer.toString() + " / " + body + " / " + buffer);
+})
 
 // GET all posts
 router.get('/api/get/allposts', (req,res,next) => {
@@ -14,6 +38,8 @@ router.get('/api/get/allposts', (req,res,next) => {
 	console.log("Error: " +  e.message);
 }
 });
+
+
 
 //GET one post by post_id
 router.get('/api/get/onepost', (req, res, next) => {
@@ -98,6 +124,23 @@ router.delete('/api/delete/post', (req,res,next) => {
 } catch (e) {
 	console.log("Error: " + e.message);
 }
+});
+
+//LOGIN
+router.post('/api/post/login', (req,res,next) => {
+	try {
+		const username = req.body.username;
+		const password = req.body.password;
+		console.log("username: " + username + "Pass: " + password);
+		pool.query(`SELECT * FROM login WHERE username = $1 AND password = $2`, [username, password],
+		(query_error, query_response) => {
+			console.log("query_response " + JSON.stringify(query_response.rows));
+			res.json(query_response.rows)
+			console.log("Query error while trying to login: " + query_error);
+		})
+	} catch(e) {
+		console.log("Error while login: " + e.message);
+	}
 });
 
 

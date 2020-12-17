@@ -1,6 +1,22 @@
 import React from 'react';
 import axios from 'axios';
 
+const postPicture = async (picture_name, picture_image, post_id) => {
+    console.log("postPicture started");
+    try {
+        const resp = await axios.post('api/post/picture', {
+            params: {
+                picture_name: picture_name,
+                picture_image: picture_image,
+                post_id: post_id
+            }
+        });
+        console.log("RESP from postPicture: " + resp);
+    } catch (e) {
+        console.log("Error: " + e.message);
+    }
+}
+
 
 
 const getPost = async (postId) => {
@@ -67,9 +83,26 @@ const editOnePost = async (title, post_body, user_id, post_id, username) => {
     }
 }
 
+const Login = async (username, password) => {
+    console.log("Login started");
+    try {
+        const params = {
+            username: username,
+            password: password
+        }
+        const resp = await axios.post('api/post/login', params)
+        console.log("Resp from Login " + resp);
+        return resp;
+    } catch(e) {
+        console.log("Errorrrrrr: " + e.message);
+    }
+}
+
 export  {
     getPost,
     getAllPosts,
     postOnePost,
-    editOnePost
+    editOnePost,
+    postPicture,
+    Login
 }
